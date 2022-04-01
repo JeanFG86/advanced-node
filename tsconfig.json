@@ -13,7 +13,11 @@
     "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
-    }
+    },
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
