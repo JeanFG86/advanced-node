@@ -4,6 +4,8 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-namespace": "off",
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": [
       "error"
