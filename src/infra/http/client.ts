@@ -1,5 +1,5 @@
 export interface HttpGetClient{
-  get: (oarams: HttpGetClient.Params) => Promise<void>
+  get: (oarams: HttpGetClient.Params) => Promise<HttpGetClient.Result>
 }
 
 export namespace HttpGetClient{
@@ -7,4 +7,6 @@ export namespace HttpGetClient{
     url: string
     params: object
   }
+
+  export type Result = any
 }
