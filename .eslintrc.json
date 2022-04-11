@@ -5,6 +5,7 @@
   },
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/return-await": "off",
     "@typescript-eslint/no-namespace": "off",
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": [
