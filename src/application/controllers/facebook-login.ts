@@ -1,7 +1,7 @@
-import { badRequest, HttpResponse, unauthorized } from '@/application/helpers'
+import { badRequest, HttpResponse, serverError, unauthorized } from '@/application/helpers'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
-import { RequiredFieldError, ServerError } from '@/application/errors'
+import { RequiredFieldError } from '@/application/errors'
 
 export class FacebookLoginController {
   constructor (private readonly facebookAuthentication: FacebookAuthentication) {}
@@ -19,12 +19,13 @@ export class FacebookLoginController {
       } else {
         return unauthorized()
       }
-    } catch (error) {
-      const e = new Error('infra_error')
-      return {
-        statusCode: 500,
-        data: new ServerError(e)
-      }
+    } catch (error: any) {
+      return serverError(error)
+      // const e = new Error('infra_error')
+      // return {
+      //  statusCode: 500,
+      //  data: new ServerError(e)
+      // }
     }
   }
 }
