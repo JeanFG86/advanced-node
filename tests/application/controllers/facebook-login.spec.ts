@@ -5,7 +5,6 @@ import { mock, MockProxy } from 'jest-mock-extended'
 import { FacebookLoginController } from '@/application/controllers'
 import { ServerError, UnauthorizedError } from '@/application/errors'
 import { ValidationComposite } from '@/application/validation'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('@/application/validation/composite')
 
@@ -29,7 +28,7 @@ describe('FacebookLoginController', () => {
     const ValidationCompositeSpy = jest.fn().mockImplementationOnce(() => ({
       validate: jest.fn().mockReturnValueOnce(error)
     }))
-    mocked(ValidationComposite).mockImplementationOnce(ValidationCompositeSpy)
+    jest.mocked(ValidationComposite).mockImplementationOnce(ValidationCompositeSpy)
 
     const httpResponse = await sut.handle({ token })
 
