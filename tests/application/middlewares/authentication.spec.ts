@@ -8,8 +8,7 @@ type Model = Error | {userId: string}
 class AuthenticationMiddleware {
   constructor (private readonly authorize: Authorize) {}
   async handle ({ authorization }: HttpRequest): Promise<HttpResponse<Model>> {
-    const error = new RequiredStringValidator(authorization, 'authorization').validate()
-    if (error !== undefined) {
+    if (!this.validate({ authorization })) {
       return forbidden()
     }
     try {
@@ -18,6 +17,11 @@ class AuthenticationMiddleware {
     } catch {
       return forbidden()
     }
+  }
+
+  private validate ({ authorization }: HttpRequest): boolean {
+    const error = new RequiredStringValidator(authorization, 'authorization').validate()
+    return error === undefined
   }
 }
 
