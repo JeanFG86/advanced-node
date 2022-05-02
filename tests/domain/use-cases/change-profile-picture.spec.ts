@@ -1,11 +1,20 @@
 import { mock } from 'jest-mock-extended'
 
-type setup = (fileStorage: UploadFile) => ChangeProfilePicture
+type setup = (fileStorage: UploadFile, crypto: UUIDGenerator) => ChangeProfilePicture
 type Input = { id: string, file: Buffer }
 type ChangeProfilePicture = (input: Input) => Promise<void>
 
-const setupChangeProfilePicture: setup = fileStorage => async ({ id, file }) => {
-  await fileStorage.upload({ file, key: id })
+const setupChangeProfilePicture: setup = (fileStorage, crypto) => async ({ id, file }) => {
+  await fileStorage.upload({ file, key: crypto.uuid({ key: id }) })
+}
+
+interface UUIDGenerator{
+  uuid: (input: UUIDGenerator.Input) => UUIDGenerator.OutPut
+}
+
+namespace UUIDGenerator{
+  export type Input = { key: string }
+  export type OutPut = string
 }
 
 interface UploadFile{
@@ -18,13 +27,16 @@ namespace UploadFile{
 
 describe('ChangeProfilePicture', () => {
   it('should call UploadFile with correct input', async () => {
+    const uuid = 'any_unique_id'
     const file = Buffer.from('any_buffer')
     const fileStorage = mock<UploadFile>()
-    const sut = setupChangeProfilePicture(fileStorage)
+    const crypto = mock<UUIDGenerator>()
+    crypto.uuid.mockReturnValue(uuid)
+    const sut = setupChangeProfilePicture(fileStorage, crypto)
 
     await sut({ id: 'any_id', file })
 
-    expect(fileStorage.upload).toHaveBeenCalledWith({ file, key: 'any_id' })
+    expect(fileStorage.upload).toHaveBeenCalledWith({ file, key: uuid })
     expect(fileStorage.upload).toHaveBeenCalledTimes(1)
   })
 })
