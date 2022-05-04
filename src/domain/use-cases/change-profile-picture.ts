@@ -14,7 +14,11 @@ export const setupChangeProfilePicture: setup = (fileStorage, crypto, userProfil
     const { name } = await userProfileRepo.load({ id })
     if (name !== undefined) {
       const firstLetters = name.match(/\b(.)/g) ?? []
-      initials = `${firstLetters.shift()?.toUpperCase() ?? ''}${firstLetters.pop()?.toUpperCase() ?? ''}`
+      if (firstLetters.length > 1) {
+        initials = `${firstLetters.shift()?.toUpperCase() ?? ''}${firstLetters.pop()?.toUpperCase() ?? ''}`
+      } else {
+        initials = name.substring(0, 2)?.toUpperCase()
+      }
     }
   }
   await userProfileRepo.savePicture({ pictureUrl, initials })
