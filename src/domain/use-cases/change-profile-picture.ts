@@ -7,10 +7,15 @@ export type ChangeProfilePicture = (input: Input) => Promise<void>
 
 export const setupChangeProfilePicture: setup = (fileStorage, crypto, userProfileRepo) => async ({ id, file }) => {
   let pictureUrl: string | undefined
+  let initials: string | undefined
   if (file !== undefined) {
     pictureUrl = await fileStorage.upload({ file, key: crypto.uuid({ key: id }) })
   } else {
-    await userProfileRepo.load({ id })
+    const { name } = await userProfileRepo.load({ id })
+    if (name !== undefined) {
+      const firstLetters = name.match(/\b(.)/g) ?? []
+      initials = `${firstLetters.shift()?.toUpperCase() ?? ''}${firstLetters.pop()?.toUpperCase() ?? ''}`
+    }
   }
-  await userProfileRepo.savePicture({ pictureUrl })
+  await userProfileRepo.savePicture({ pictureUrl, initials })
 }
