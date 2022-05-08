@@ -23,8 +23,7 @@ export const setupChangeProfilePicture: setup = (fileStorage, crypto, userProfil
     if (file !== undefined) {
       await fileStorage.delete({ key })
     }
-
-    throw new Error()
+    throw error
   }
 
   return userProfile
