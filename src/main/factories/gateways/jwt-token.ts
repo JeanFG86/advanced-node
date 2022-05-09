@@ -1,4 +1,4 @@
-import { JwtTokenHandler } from '@/infra/crypto'
+import { JwtTokenHandler } from '@/infra/geteways'
 import { env } from '@/main/config/env'
 
 export const makeJwtTokenHandler = (): JwtTokenHandler => {

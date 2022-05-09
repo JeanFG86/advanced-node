@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { JwtTokenHandler } from '@/infra/crypto'
+import { JwtTokenHandler } from '@/infra/geteways'
 
 jest.mock('jsonwebtoken')
 
