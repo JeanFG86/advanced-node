@@ -10,6 +10,7 @@
     "space-before-function-paren": "off",
     "@typescript-eslint/space-before-function-paren": [
       "error"
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }
