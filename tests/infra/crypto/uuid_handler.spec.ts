@@ -1,13 +1,7 @@
-import { UUIDGenerator } from '@/domain/contracts/gateways'
 import { v4 } from 'uuid'
+import { UUIDHandler } from '@/infra/crypto'
 
 jest.mock('uuid')
-
-class UUIDHandler {
-  uuid ({ key }: UUIDGenerator.Input): UUIDGenerator.OutPut {
-    return `${key}_${v4()}`
-  }
-}
 
 describe('UUIDHandler', () => {
   let sut: UUIDHandler
