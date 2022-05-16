@@ -1,5 +1,5 @@
 import { InvalidMimeTypeError, MaxFileSizeError, RequiredFieldError } from '@/application/errors'
-import { SavePictureController } from '@/application/controllers'
+import { Controller, SavePictureController } from '@/application/controllers'
 
 describe('SavePictureController', () => {
   let buffer: Buffer
@@ -21,7 +21,11 @@ describe('SavePictureController', () => {
     sut = new SavePictureController(changeProfilePicture)
   })
 
-  it('shoul return 400 if file is not provided', async () => {
+  it('should extends Controller', async () => {
+    expect(sut).toBeInstanceOf(Controller)
+  })
+
+  it('should return 400 if file is not provided', async () => {
     const httpResponse = await sut.handle({ file: undefined as any, userId })
 
     expect(httpResponse).toEqual({
@@ -30,7 +34,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul return 400 if file is not provided', async () => {
+  it('should return 400 if file is not provided', async () => {
     const httpResponse = await sut.handle({ file: null as any, userId })
 
     expect(httpResponse).toEqual({
@@ -39,7 +43,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul return 400 if file is empty', async () => {
+  it('should return 400 if file is empty', async () => {
     const httpResponse = await sut.handle({ file: { buffer: Buffer.from(''), mimeType }, userId })
 
     expect(httpResponse).toEqual({
@@ -48,7 +52,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul return 400 if file is type is invalid', async () => {
+  it('should return 400 if file is type is invalid', async () => {
     const httpResponse = await sut.handle({ file: { buffer, mimeType: 'invalid_type' }, userId })
 
     expect(httpResponse).toEqual({
@@ -57,7 +61,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul not return 400 if file is type is valid', async () => {
+  it('should not return 400 if file is type is valid', async () => {
     const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/png' }, userId })
 
     expect(httpResponse).not.toEqual({
@@ -66,7 +70,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul not return 400 if file is type is valid', async () => {
+  it('should not return 400 if file is type is valid', async () => {
     const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/jpeg' }, userId })
 
     expect(httpResponse).not.toEqual({
@@ -75,7 +79,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul not return 400 if file is type is valid', async () => {
+  it('should not return 400 if file is type is valid', async () => {
     const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/jpg' }, userId })
 
     expect(httpResponse).not.toEqual({
@@ -84,7 +88,7 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul return 400 if file is bigger than 5MB', async () => {
+  it('should return 400 if file is bigger than 5MB', async () => {
     const invalidBuffer = Buffer.from(new ArrayBuffer(6 * 1024 * 1024))
     const httpResponse = await sut.handle({ file: { buffer: invalidBuffer, mimeType }, userId })
 
@@ -94,14 +98,14 @@ describe('SavePictureController', () => {
     })
   })
 
-  it('shoul call ChangeProfilePicture with correct input', async () => {
+  it('should call ChangeProfilePicture with correct input', async () => {
     await sut.handle({ file, userId })
 
     expect(changeProfilePicture).toHaveBeenCalledWith({ id: userId, file: buffer })
     expect(changeProfilePicture).toHaveBeenCalledTimes(1)
   })
 
-  it('shoul return 200 with valid data', async () => {
+  it('should return 200 with valid data', async () => {
     const httpResponse = await sut.handle({ file, userId })
 
     expect(httpResponse).toEqual({
