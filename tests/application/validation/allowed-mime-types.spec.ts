@@ -8,8 +8,10 @@ class AllawedMimeTypes {
     private readonly mimetype: string
   ) { }
 
-  validate (): Error {
-    return new InvalidMimeTypeError(this.allowed)
+  validate (): Error | undefined {
+    if (this.allowed.includes('png') && this.mimetype !== 'image/png') {
+      return new InvalidMimeTypeError(this.allowed)
+    }
   }
 }
 
@@ -20,5 +22,13 @@ describe('AllawedMimeTypes', () => {
     const error = sut.validate()
 
     expect(error).toEqual(new InvalidMimeTypeError(['png']))
+  })
+
+  it('should return undefined if value is valid', () => {
+    const sut = new AllawedMimeTypes(['png'], 'image/png')
+
+    const error = sut.validate()
+
+    expect(error).toBeUndefined()
   })
 })
