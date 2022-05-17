@@ -9,9 +9,23 @@ class AllawedMimeTypes {
   ) { }
 
   validate (): Error | undefined {
-    if (this.allowed.includes('png') && this.mimetype !== 'image/png') {
+    let isValid = false
+
+    if (this.isPng() || this.isJpg()) {
+      isValid = true
+    }
+
+    if (!isValid) {
       return new InvalidMimeTypeError(this.allowed)
     }
+  }
+
+  private isPng (): boolean {
+    return this.allowed.includes('png') && this.mimetype === 'image/png'
+  }
+
+  private isJpg (): boolean {
+    return this.allowed.includes('jpg') && /image\/jpe?g/.test(this.mimetype)
   }
 }
 
@@ -26,6 +40,22 @@ describe('AllawedMimeTypes', () => {
 
   it('should return undefined if value is valid', () => {
     const sut = new AllawedMimeTypes(['png'], 'image/png')
+
+    const error = sut.validate()
+
+    expect(error).toBeUndefined()
+  })
+
+  it('should return undefined if value is valid', () => {
+    const sut = new AllawedMimeTypes(['jpg'], 'image/jpg')
+
+    const error = sut.validate()
+
+    expect(error).toBeUndefined()
+  })
+
+  it('should return undefined if value is valid', () => {
+    const sut = new AllawedMimeTypes(['jpg'], 'image/jpeg')
 
     const error = sut.validate()
 
