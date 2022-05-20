@@ -1,9 +1,9 @@
-import { AllawedMimeTypes } from '@/application/validation'
+import { AllowedMimeTypes } from '@/application/validation'
 import { InvalidMimeTypeError } from '@/application/errors'
 
-describe('AllawedMimeTypes', () => {
+describe('AllowedMimeTypes', () => {
   it('should return InvalidMimeTypeError if value is invalid', () => {
-    const sut = new AllawedMimeTypes(['png'], 'image/jpg')
+    const sut = new AllowedMimeTypes(['png'], 'image/jpg')
 
     const error = sut.validate()
 
@@ -11,7 +11,7 @@ describe('AllawedMimeTypes', () => {
   })
 
   it('should return undefined if value is valid', () => {
-    const sut = new AllawedMimeTypes(['png'], 'image/png')
+    const sut = new AllowedMimeTypes(['png'], 'image/png')
 
     const error = sut.validate()
 
@@ -19,7 +19,7 @@ describe('AllawedMimeTypes', () => {
   })
 
   it('should return undefined if value is valid', () => {
-    const sut = new AllawedMimeTypes(['jpg'], 'image/jpg')
+    const sut = new AllowedMimeTypes(['jpg'], 'image/jpg')
 
     const error = sut.validate()
 
@@ -27,7 +27,7 @@ describe('AllawedMimeTypes', () => {
   })
 
   it('should return undefined if value is valid', () => {
-    const sut = new AllawedMimeTypes(['jpg'], 'image/jpeg')
+    const sut = new AllowedMimeTypes(['jpg'], 'image/jpeg')
 
     const error = sut.validate()
 

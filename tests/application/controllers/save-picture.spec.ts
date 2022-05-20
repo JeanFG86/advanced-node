@@ -1,5 +1,5 @@
 import { Controller, SavePictureController } from '@/application/controllers'
-import { AllawedMimeTypes, MaxFileSize, Required, RequiredBuffer } from '@/application/validation'
+import { AllowedMimeTypes, MaxFileSize, Required, RequiredBuffer } from '@/application/validation'
 
 describe('SavePictureController', () => {
   let buffer: Buffer
@@ -31,7 +31,7 @@ describe('SavePictureController', () => {
     expect(validators).toEqual([
       new Required(file, 'file'),
       new RequiredBuffer(buffer, 'file'),
-      new AllawedMimeTypes(['png', 'jpg'], mimeType),
+      new AllowedMimeTypes(['png', 'jpg'], mimeType),
       new MaxFileSize(5, buffer)
     ])
   })
